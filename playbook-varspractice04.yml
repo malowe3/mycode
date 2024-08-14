@@ -17,6 +17,14 @@
       - keys
       - upper
       - split
+      - info
+
+    # a task for my own sake to see the json output
+  - name: Displaying what was returned
+    ansible.builtin.debug:
+      msg: results.content_type
+    tags:
+      - info
 
   - name: Use python to show all dictionary keys with python
     ansible.builtin.debug:

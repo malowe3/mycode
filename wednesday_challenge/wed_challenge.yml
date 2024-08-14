@@ -1,0 +1,29 @@
+---
+- name: Wednesday Challenge - creating users and install figlet
+  hosts: planetexpress:!farnsworth
+  gather_facts: true
+
+  vars_files:
+    - ~/mycode/vars/wed_challenge_names.yml
+
+  tasks:
+
+    # Creating hosts with defaults
+    - name: "Create users on hosts"
+      ansible.builtin.user:
+        name: "{{ item }}"
+        state: present
+      become: yes
+      loop: "{{ wednesday }}"
+
+    # Installing figlet on hosts
+    - name: "Install Figlet"
+      package:
+        name: figlet
+        state: present
+      become: yes
+
+    # Task 3 - complete the challenge message    
+    - name: Challenge Complete!
+      debug:
+        msg: "I've completed the challenge!"

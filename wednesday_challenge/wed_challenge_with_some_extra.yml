@@ -1,0 +1,34 @@
+---
+- name: Wednesday Challenge - creating users and install figlet
+  hosts: planetexpress
+  gather_facts: true
+
+  vars_files:
+    - ~/mycode/vars/wed_challenge_names.yml
+
+  tasks:
+
+    - name: "Create users fround in the wed_challenge_names.yml"
+      ansible.builtin.user:
+        name: "{{ item }}"
+        state: present
+      become: yes
+      loop: "{{ wednesday }}"
+
+    - name: Block 
+      block:
+
+        - name: "Install Figlet"
+          package:
+            name: figlet
+            state: present
+          become: yes
+
+      # my attempt at handling farnsworth problem child
+      rescue:
+        - name: Rescuing from the error
+          ansible.builtin.fail:
+            msg: "Curse you farnsworth!"
+
+    - name: I've completed the challenge!
+      ansible.builtin.shell: "I've completed the challenge on ansible_host!"
